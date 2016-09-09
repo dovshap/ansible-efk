@@ -1,0 +1,40 @@
+- name: Elasticsearch - Install Java
+  yum:
+    name: java-1.8.0-openjdk
+    state: latest
+
+- name: Elasticsearch - Elastic Repo GPG Key
+  rpm_key:
+    key: https://packages.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: Elasticsearch - Elastic Repo
+  yum_repository:
+    name: elasticsearch-2.x
+    description: Elasticsearch repository for 2.x packages
+    baseurl: https://packages.elastic.co/elasticsearch/2.x/centos
+    gpgcheck: yes
+    gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+    enabled: yes
+
+- name: Elasticsearch - Install Elasticsearch
+  yum:
+    name: elasticsearch
+    state: latest
+
+# This will work in Ansible 2.2 until then we will have to use the command module
+#- name: Elasticsearch - Enable Elasticsearch
+#systemd:
+  #daemon_reload: yes
+  #name: elasticsearch
+  #enabled: yes
+  #state: started 
+
+- name: Elasticsearch - Reload SystemD
+  command: /bin/systemctl daemon-reload
+
+- name: Elasticsearch - Enable Service
+  command: /bin/systemctl enable elasticsearch.service
+
+- name: Elasticsearch - Start Service
+  command: /bin/systemctl start elasticsearch.service
