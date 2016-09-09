@@ -1,0 +1,6 @@
+- name: install @Base
+  yum: name="@Base" state=present  
+
+- name: Yum Update
+  yum: name=* state=latest
+

@@ -1,0 +1,13 @@
+---
+- name: ELK_common
+  hosts: all
+  become: true
+  roles:
+  - role: common
+
+
+- name: Logstash
+  hosts: logstash
+  become: true
+  roles:
+  - role: logstash
