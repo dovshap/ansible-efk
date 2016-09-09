@@ -5,9 +5,26 @@
   roles:
   - role: common
 
-
 - name: Logstash
   hosts: logstash
   become: true
   roles:
   - role: logstash
+
+- name: Redis
+  hosts: redis
+  become: true
+  roles:
+  - role: redis
+
+- name: Elasticsearch
+  hosts: elasticsearch
+  become: true
+  roles:
+  - role: elasticsearch
+
+- name: Kibana
+  hosts: kibana
+  become: true
+  roles:
+  - role: kibana
