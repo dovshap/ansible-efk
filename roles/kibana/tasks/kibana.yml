@@ -21,6 +21,7 @@
   yum:
     name: kibana
     state: latest
+  register: kibanainstalled
 
 # This will work in Ansible 2.2 until then we will have to use the command module
 #- name: Kibana - Enable Kibana
@@ -32,9 +33,19 @@
 
 - name: Kibana - Reload SystemD
   command: /bin/systemctl daemon-reload
-
-- name: Kibana - Enable Service
-  command: /bin/systemctl enable kibana.service
+  when: kibanainstalled.changed
 
 - name: Kibana - Start Service
-  command: /bin/systemctl start kibana.service
+  service:
+    name: kibana
+    enabled: yes
+    state: started
+  when: kibanainstalled.changed
+
+#- name: Kibana - Enable Service
+  #command: /bin/systemctl enable kibana.service
+  #when: kibanainstalled.changed
+
+#- name: Kibana - Start Service
+  #command: /bin/systemctl start kibana.service
+  #when: kibanainstalled.changed

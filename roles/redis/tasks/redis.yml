@@ -1,0 +1,26 @@
+- name: Redis - Install EPEL Repo
+  yum: name=epel-release state=present
+            
+- name: Redis - Install packages
+  yum: state=present name={{ item }}
+  with_items:
+    - redis
+  register: redisinstalled
+
+- name: Redis - Start Service
+  service:
+    name: redis
+    enabled: yes
+    state: started
+  when: redisinstalled.changed
+
+
+  #- name: Redis - Enable Service
+  #command: /bin/systemctl enable redis.service
+  #when: redisinstalled.changed
+
+  #- name: Redis - Start Service
+  #command: /bin/systemctl start redis.service
+  #when: redisinstalled.changed
+
+

@@ -21,6 +21,7 @@
   yum:
     name: elasticsearch
     state: latest
+  register: esinstalled
 
 # This will work in Ansible 2.2 until then we will have to use the command module
 #- name: Elasticsearch - Enable Elasticsearch
@@ -32,9 +33,21 @@
 
 - name: Elasticsearch - Reload SystemD
   command: /bin/systemctl daemon-reload
-
-- name: Elasticsearch - Enable Service
-  command: /bin/systemctl enable elasticsearch.service
+  when: esinstalled.changed
 
 - name: Elasticsearch - Start Service
-  command: /bin/systemctl start elasticsearch.service
+  service:
+    name: elasticsearch
+    enabled: yes
+    state: started
+  when: esinstalled.changed
+
+
+
+#- name: Elasticsearch - Enable Service
+  #command: /bin/systemctl enable elasticsearch.service
+  #when: esinstall.changed
+
+#- name: Elasticsearch - Start Service
+  #command: /bin/systemctl start elasticsearch.service
+  #when: esinstall.changed

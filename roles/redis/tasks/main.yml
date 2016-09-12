@@ -1,2 +1,3 @@
 ---
 # tasks file for redis
+- include: redis.yml
