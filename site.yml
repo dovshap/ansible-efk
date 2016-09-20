@@ -11,6 +11,12 @@
   roles:
   - role: logstash
 
+- name: Fluentd
+  hosts: fluentd
+  become: true
+  roles:
+  - role: fluentd
+
 - name: Redis
   hosts: redis
   become: true

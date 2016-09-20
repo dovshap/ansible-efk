@@ -18,6 +18,10 @@ Vagrant.configure("2") do |config|
       #ansible.sudo = true
     #end
      end
+  # fluentd server
+  config.vm.define "fluentd" do |fluentd|
+    fluentd.vm.hostname = "fluentd"
+  end
 
   # redis server.
   config.vm.define "redis" do |redis|

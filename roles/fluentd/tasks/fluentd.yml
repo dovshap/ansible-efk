@@ -1,0 +1,29 @@
+- name: Fluentd - Fluentd Repo GPG Key
+  rpm_key:
+    key: https://packages.treasuredata.com/GPG-KEY-td-agent
+    state: present
+
+- name: Fluentd - TreasureData Repo
+  yum_repository:
+    name: treasuredata
+    description: TreasureData repository 
+    baseurl: http://packages.treasuredata.com/2/redhat/\$releasever/\$basearch
+    gpgcheck: yes
+    gpgkey: https://packages.treasuredata.com/GPG-KEY-td-agent
+    enabled: yes
+
+- name: Fluentd - Install td-agent
+  yum:
+    name: td-agent
+    state: latest
+  register: tdinstalled
+
+- name: Fluentd - Reload SystemD
+  command: /bin/systemctl daemon-reload
+  when: tdinstalled.changed
+
+- name: Fluentd - Start Service
+  service:
+    name: td-agent
+    enabled: yes
+    state: started
