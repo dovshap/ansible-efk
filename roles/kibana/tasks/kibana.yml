@@ -1,8 +1,3 @@
-#- name: Kibana - Install Java
-#yum:
-  #name: java-1.8.0-openjdk
-  #state: latest
-
 - name: Kibana - Kibana Repo GPG Key
   rpm_key:
     key: https://packages.elastic.co/GPG-KEY-elasticsearch
@@ -23,6 +18,12 @@
     state: latest
   register: kibanainstalled
 
+- name: Kibana Config
+  template:
+    src: kibana.j2
+    dest: /opt/kibana/config/kibana.yml
+  register: kibanainstalled
+
 # This will work in Ansible 2.2 until then we will have to use the command module
 #- name: Kibana - Enable Kibana
 #systemd:
@@ -31,15 +32,11 @@
   #enabled: yes
   #state: started 
 
-- name: Kibana - Reload SystemD
-  command: /bin/systemctl daemon-reload
-  when: kibanainstalled.changed
-
 - name: Kibana - Start Service
   service:
     name: kibana
     enabled: yes
-    state: started
+    state: restarted
   when: kibanainstalled.changed
 
 #- name: Kibana - Enable Service

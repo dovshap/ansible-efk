@@ -1,4 +1,5 @@
 ---
 # tasks file for fluentd
 - include: fluentd.yml
+- include: fluentdag.yml
 

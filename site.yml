@@ -2,26 +2,34 @@
 - name: ELK_common
   hosts: all
   become: true
+  gather_facts: true
   roles:
   - role: common
 
-- name: Logstash
-  hosts: logstash
-  become: true
-  roles:
-  - role: logstash
+    #- name: Logstash
+    #hosts: logstash
+    #become: true
+    #roles:
+      #- role: logstash
 
-- name: Fluentd
-  hosts: fluentd
+- name: Fluentd Forwarder
+  hosts: fluentdfw
   become: true
   roles:
-  - role: fluentd
+    - role: fluentd-fw
 
-- name: Redis
-  hosts: redis
+
+- name: Fluentd Aggregator
+  hosts: fluentdag
   become: true
   roles:
-  - role: redis
+    - role: fluentd-ag
+
+      #- name: Redis
+      #hosts: redis
+      #become: true
+      #roles:
+        #- role: redis
 
 - name: Elasticsearch
   hosts: elasticsearch

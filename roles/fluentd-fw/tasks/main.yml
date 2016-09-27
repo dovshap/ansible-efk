@@ -1,0 +1,5 @@
+---
+# tasks file for fluentd
+- include: fluentd.yml
+- include: fluentdfw.yml
+

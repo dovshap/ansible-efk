@@ -1,0 +1,26 @@
+- name: Fluentd-Aggregator - Listener config
+  copy: 
+    src: td-agg.conf
+    dest: /etc/td-agent/conf.d/td-agg.conf
+
+- name: Fluentd-Aggregator - Elasticsearch Forwarder
+  template: 
+    src: td-elastic.conf.j2
+    dest: /etc/td-agent/conf.d/td-elastic.conf
+
+- name: Fluentd-Aggregator - Install Plugins
+  command: td-agent-gem install {{ item }}
+  with_items:
+  - 'fluent-plugin-elasticsearch'
+  - 'fluent-plugin-secure-forward'
+
+
+- name: Fluentd-Forwarder - Reload SystemD
+  command: /bin/systemctl daemon-reload
+  when: tdinstalled.changed
+
+- name: Fluentd-Forwarder - Start Service
+  service:
+    name: td-agent
+    enabled: yes
+    state: started

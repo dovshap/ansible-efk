@@ -1,0 +1,15 @@
+- name: Fluentd-Forwarder - Forwarder config
+  template: 
+    src: td-syslog.conf.j2
+    dest: /etc/td-agent/conf.d/td-syslog.conf
+
+
+- name: Fluentd-Forwarder - Reload SystemD
+  command: /bin/systemctl daemon-reload
+  when: tdinstalled.changed
+
+- name: Fluentd-Forwarder - Start Service
+  service:
+    name: td-agent
+    enabled: yes
+    state: started

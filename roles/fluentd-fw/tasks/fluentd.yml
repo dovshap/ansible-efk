@@ -1,0 +1,30 @@
+- name: Fluentd-Common - Fluentd Repo GPG Key
+  rpm_key:
+    key: https://packages.treasuredata.com/GPG-KEY-td-agent
+    state: present
+
+- name: Fluentd-Common - TreasureData Repo
+  yum_repository:
+    name: treasuredata
+    description: TreasureData repository 
+    baseurl: http://packages.treasuredata.com/2/redhat/\$releasever/\$basearch
+    gpgcheck: yes
+    gpgkey: https://packages.treasuredata.com/GPG-KEY-td-agent
+    enabled: yes
+
+- name: Fluentd-Common - Install td-agent
+  yum:
+    name: td-agent
+    state: latest
+  register: tdinstalled
+
+- name: Fluentd-Common - Base config file
+  copy: 
+    src: td-agent.conf
+    dest: /etc/td-agent/td-agent.conf
+
+- name: Fluentd-Common - Create conf.d folder
+  file:
+    path: /etc/td-agent/conf.d/
+    state: directory
+

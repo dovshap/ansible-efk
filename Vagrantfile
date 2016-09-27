@@ -8,8 +8,8 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "frensjan/centos-7-64-lxc"
 
-  config.vm.define "logstash" do |logstash|
-    logstash.vm.hostname = "logstash"
+  #config.vm.define "logstash" do |logstash|
+    #logstash.vm.hostname = "logstash"
     #logs.vm.network :private_network, ip: "192.168.9.90"
 
     #logs.vm.provision :ansible do |ansible|
@@ -17,17 +17,22 @@ Vagrant.configure("2") do |config|
       #ansible.inventory_path = "provisioning/elk/inventory"
       #ansible.sudo = true
     #end
-     end
-  # fluentd server
-  config.vm.define "fluentd" do |fluentd|
-    fluentd.vm.hostname = "fluentd"
+     #end
+  # fluentd forwarder server
+  config.vm.define "fluentdfw" do |fluentdfw|
+    fluentdfw.vm.hostname = "fluentdfw"
+  end
+
+  # fluentd aggregator server
+  config.vm.define "fluentdag" do |fluentdag|
+    fluentdag.vm.hostname = "fluentdag"
   end
 
   # redis server.
-  config.vm.define "redis" do |redis|
-    redis.vm.hostname = "redis"
+  #config.vm.define "redis" do |redis|
+    #redis.vm.hostname = "redis"
     #webs.vm.network :private_network, ip: "192.168.9.91"
-  end
+  #end
 
   # elasticsearch server.
   config.vm.define "elasticsearch" do |elasticsearch|

@@ -1,0 +1,23 @@
+<source>
+  @type syslog
+  port 5140
+  bind 0.0.0.0
+  tag syslog
+</source>
+
+# Log Forwarding
+<match syslog.**>
+  @type forward
+
+  #primary host
+  <server>
+    host {{ hostvars['fluentdfw']['ansible_eth0']['ipv4']['address'] }}
+    port 24224
+  </server>
+  # insert scondary host here
+  #<server>
+    #host  ##secondary hostname##
+    #port 24224
+    #standby
+  #</server>
+</match>

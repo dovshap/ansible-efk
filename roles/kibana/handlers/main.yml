@@ -1,2 +1,5 @@
 ---
 # handlers file for kibana
+- name: reload_systemd
+  become: yes
+  command: systemctl daemon-reload

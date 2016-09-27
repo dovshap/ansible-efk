@@ -31,15 +31,11 @@
   #enabled: yes
   #state: started 
 
-- name: Elasticsearch - Reload SystemD
-  command: /bin/systemctl daemon-reload
-  when: esinstalled.changed
-
 - name: Elasticsearch - Start Service
   service:
     name: elasticsearch
     enabled: yes
-    state: started
+    state: restarted
   when: esinstalled.changed
 
 

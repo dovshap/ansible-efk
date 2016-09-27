@@ -1,0 +1,7 @@
+<match **>
+  @type elasticsearch
+  logstash_format true
+  host {{ hostvars['elasticsearch']['ansible_default_ipv4']['address'] }}
+  index_name syslog
+  type_name syslog
+</match>
