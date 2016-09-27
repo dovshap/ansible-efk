@@ -6,18 +6,23 @@
 </source>
 
 # Log Forwarding
-<match syslog.**>
+<match **>
   @type forward
-
-  #primary host
-  <server>
-    host {{ hostvars['fluentdfw']['ansible_eth0']['ipv4']['address'] }}
-    port 24224
-  </server>
-  # insert scondary host here
-  #<server>
-    #host  ##secondary hostname##
-    #port 24224
-    #standby
-  #</server>
+  send_timeout 60s
+  recover_wait 10s
+  heartbeat_interval 1s
+  phi_threshold 16
+  hard_timeout 60s
+   #primary host
+    <server>
+      host {{ hostvars['fluentdfw']['ansible_eth0']['ipv4']['address'] }}
+      port 24224
+    </server>
+    # insert scondary host here
+    #<server>
+      #host  ##secondary hostname##
+      #port 24224
+      #standby
+    #</server>
+    #</store>
 </match>

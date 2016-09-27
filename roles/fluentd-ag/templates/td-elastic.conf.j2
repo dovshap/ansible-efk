@@ -1,7 +1,15 @@
-<match **>
-  @type elasticsearch
-  logstash_format true
-  host {{ hostvars['elasticsearch']['ansible_default_ipv4']['address'] }}
-  index_name syslog
-  type_name syslog
+<match *.**>
+  type copy
+  <store>
+    type elasticsearch
+    host {{ hostvars['elasticsearch']['ansible_default_ipv4']['address'] }}
+    port 9200
+    include_tag_key true
+    tag_key @log_name
+    logstash_format true
+    flush_interval 10s
+  </store>
+  #<store>
+   #type stdout
+  #</store>
 </match>
