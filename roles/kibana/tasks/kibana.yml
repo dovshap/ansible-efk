@@ -5,12 +5,15 @@
 
 - name: Kibana - Kibana Repo
   yum_repository:
-    name: kibana-4.5
-    description: Kibana repository for 4.5.x packages
-    baseurl: https://packages.elastic.co/kibana/4.5/centos
+    name: kibana-5.x
+    description: Kibana repository for 5.x packages
+    baseurl: https://artifacts.elastic.co/packages/5.x/yum
     gpgcheck: yes
-    gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
     enabled: yes
+    params: 
+      autorefresh=1
+      type=rpm-md
 
 - name: Kibana - Install Kibana
   yum:
@@ -21,7 +24,7 @@
 - name: Kibana Config
   template:
     src: kibana.j2
-    dest: /opt/kibana/config/kibana.yml
+    dest: /etc/kibana/kibana.yml
   register: kibanainstalled
 
 # This will work in Ansible 2.2 until then we will have to use the command module

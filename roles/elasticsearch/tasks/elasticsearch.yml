@@ -10,18 +10,28 @@
 
 - name: Elasticsearch - Elastic Repo
   yum_repository:
-    name: elasticsearch-2.x
-    description: Elasticsearch repository for 2.x packages
-    baseurl: https://packages.elastic.co/elasticsearch/2.x/centos
+    name: elasticsearch
+    description: Elasticsearch repository for 5.x packages
+    baseurl: https://artifacts.elastic.co/packages/5.x/yum
     gpgcheck: yes
-    gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
     enabled: yes
+    params:
+      autorefresh=1
+      type=rpm-md
 
 - name: Elasticsearch - Install Elasticsearch
   yum:
     name: elasticsearch
     state: latest
   register: esinstalled
+
+- name: Replace elasticsearch.yml
+  copy:
+    src: elasticsearch.yml
+    dest: /etc/elasticsearch/elasticsearch.yml
+    backup: yes
+  when: esinstalled.changed
 
 # This will work in Ansible 2.2 until then we will have to use the command module
 #- name: Elasticsearch - Enable Elasticsearch
