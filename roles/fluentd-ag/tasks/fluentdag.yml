@@ -13,6 +13,7 @@
   with_items:
   - 'fluent-plugin-elasticsearch'
   - 'fluent-plugin-secure-forward'
+  run_once: true
 
 
 - name: Fluentd-Forwarder - Reload SystemD
