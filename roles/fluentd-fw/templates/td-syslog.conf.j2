@@ -15,7 +15,7 @@
   hard_timeout 60s
    #primary host
     <server>
-      host {{ hostvars['fluentdfw']['ansible_default_ipv4']['address'] }}
+      host {{ hostvars['fluentdag']['ansible_default_ipv4']['address'] }}
       port 24224
     </server>
     # insert scondary host here
